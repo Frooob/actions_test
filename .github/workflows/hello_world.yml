@@ -2,9 +2,12 @@ name: Print Branch Name
 
 on:
   push:
-    branches:
+    branches:  # only execute the pipeline if the push is to one of the following branches
       - main
       - develop
+    paths:  # only execute the pipeline if files in either of the folders change
+      - '.github/workflows/**'
+      - 'trigger_code/**'
 
 jobs:
   print_branch_name:
