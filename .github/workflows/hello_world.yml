@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print hello message
-        run: echo "hello from ${{ github.ref }}!"
+        run: echo "hello from ${{ github.ref.name }}!"
