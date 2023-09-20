@@ -1,0 +1,14 @@
+name: Print Branch Name
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  print_branch_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print hello message
+        run: echo "hello from ${{ github.ref }}!"
