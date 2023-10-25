@@ -8,6 +8,13 @@ on:
     paths:  # only execute the pipeline if files in either of the folders change
       - '.github/workflows/**'
       - 'trigger_code/**'
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
 
 concurrency:  # only allow one instance of the pipeline to run at a time
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,3 +32,6 @@ jobs:
         run: echo "hi ${{ secrets.MYSECRET }}"
       - name: Print variable
         run: echo "hi ${{ vars.MY_VAR }}"
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
