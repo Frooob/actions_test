@@ -21,3 +21,7 @@ jobs:
     steps:
       - name: Print hello message
         run: echo "hello from ${GITHUB_REF_NAME}!!"
+      - name: Print secrets
+        run: echo "hi ${{ secrets.MYSECRET }}"
+      - name: Print variable
+        run: echo "hi ${{ vars.MY_VAR }}"
