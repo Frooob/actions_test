@@ -1,4 +1,4 @@
-name: Print Branch Name
+name: Print Branch Name (optional tmate)
 
 on:
   push:

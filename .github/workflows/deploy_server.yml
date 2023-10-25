@@ -1,0 +1,31 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches:
+      - main # adjust with your branch name
+      - develop
+    paths:  # only execute the pipeline if files in either of the folders change
+      - '.github/workflows/**'
+      - 'deploy_code/**'
+
+env:
+  SSH_KEY: ${{ secrets.FROOB_SSH_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Add SSH key
+      run: |
+        echo "$SSH_KEY" > private_key.pem
+        chmod 600 private_key.pem
+        ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "your_commands_here"
+    
+    - name: Deploy to remote server
+      run: |
+        ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "echo 'Hi from gh' >> hallo"
