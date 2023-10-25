@@ -11,6 +11,7 @@ on:
 
 env:
   SSH_KEY: ${{ secrets.FROOB_SSH_KEY }}
+  SUDO_PASSWORD: ${{ secrets.FROOB_PW }}
 
 jobs:
   deploy:
@@ -27,4 +28,12 @@ jobs:
     
     - name: Deploy to remote server
       run: |
-        ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "echo 'Hi from gh' >> hallo"
+        ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "\
+        echo 'Hi from gh' >> hallo"
+    
+    - name: Do some sudo stuff
+      run: |
+        ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "\
+        echo $SUDO_PASSWORD | sudo -S \
+        echo 'Hi from gh sudo' >> /secretpalace/text"
+      
