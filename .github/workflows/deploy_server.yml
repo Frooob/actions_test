@@ -24,7 +24,6 @@ jobs:
       run: |
         echo "$SSH_KEY" > private_key.pem
         chmod 600 private_key.pem
-        ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "your_commands_here"
     
     - name: Deploy to remote server
       run: |
