@@ -9,8 +9,14 @@ on:
       - '.github/workflows/**'
       - 'trigger_code/**'
 
+concurrency:  # only allow one instance of the pipeline to run at a time
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   print_branch_name:
+    timeout-minutes: 20  # timeout the job after 20 minutes
+    name: Hello World
     runs-on: ubuntu-latest
     steps:
       - name: Print hello message
