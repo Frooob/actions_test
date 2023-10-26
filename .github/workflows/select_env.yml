@@ -34,5 +34,13 @@ jobs:
     # print the secret env
     - name: Print Secret
       run: echo $SECRET
+    
+    # write the secret to a file and then print the content of it
+    - name: Write Secret to File
+      run: echo $SECRET > secret.txt
+
+    - name: Print Secret from File
+      run: cat secret.txt
+ 
 
     
