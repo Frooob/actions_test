@@ -45,5 +45,5 @@ jobs:
     - name: Do some sudo stuff
       run: |
         ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "\
-        echo $SUDO_PASSWORD | sudo -S echo 'Hi from gh sudo' >> /secretpalace/text"
+        echo ${SUDO_PASSWORD} | sudo -S sh -c 'echo Hi from gh sudo again >> /secretpalace/text'"
       
