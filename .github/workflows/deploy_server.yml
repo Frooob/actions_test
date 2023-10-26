@@ -8,6 +8,13 @@ on:
     paths:  # only execute the pipeline if files in either of the folders change
       - '.github/workflows/**'
       - 'deploy_code/**'
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
 
 env:
   SSH_KEY: ${{ secrets.FROOB_SSH_KEY }}
@@ -26,6 +33,10 @@ jobs:
         echo "$SSH_KEY" > private_key.pem
         chmod 600 private_key.pem
     
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+    
     - name: Deploy to remote server
       run: |
         ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "\
@@ -34,6 +45,5 @@ jobs:
     - name: Do some sudo stuff
       run: |
         ssh -o StrictHostKeyChecking=no -i private_key.pem froob@nicethias.de "\
-        echo $SUDO_PASSWORD | sudo -S \
-        echo 'Hi from gh sudo' >> /secretpalace/text"
+        echo $SUDO_PASSWORD | sudo -S echo 'Hi from gh sudo' >> /secretpalace/text"
       
